@@ -1,7 +1,9 @@
 # SciHealthCheck
-A latex package to do a sanity check on your hypothesis-driven scientific papers.
+A latex package to do a sanity check on your hypothesis-driven scientific papers. Generates a simplifed title, a summary and stats.
 
 Overleaf: https://www.overleaf.com/read/ghhrqhwnnmvh
+
+<img src="healthcard.png"  width="500">
 
 ## How to use
 
