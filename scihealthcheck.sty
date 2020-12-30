@@ -1,0 +1,103 @@
+%%Identification
+%%The package identifies itself and the LaTeX version needed
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{scihealthcheck}[2020/12/30 Science Health Check]
+
+%%Required packages and preliminary definitions, needed by the options
+\RequirePackage{etoolbox}
+\RequirePackage{ifthen}
+\RequirePackage{imakeidx}
+\RequirePackage{progressbar}
+\RequirePackage{substr}
+\RequirePackage{tikz}                                               
+
+% pro and con citation counter
+\newcounter{citepro}
+\newcounter{citecon}
+\newcounter{tempcount}
+
+% pro and con experimental results counters
+\newcounter{respro}
+\newcounter{rescon}
+
+\newcommand{\hcite}[2]{\cite{#2}%
+    \SubStringsToCounter{tempcount}{,}{#2}%
+    \ifthenelse{\equal{#1}{pro}}%
+      %if pro
+      {\addtocounter{citepro}{\thetempcount+1}}%
+      {\ifthenelse{\equal{#1}{con}}%
+         {\addtocounter{citecon}{\thetempcount+1}}% 
+        {% false case:say error
+        }%
+      }%
+ }
+ 
+\newcommand{\result}[1]{
+     \ifthenelse{\equal{#1}{pro}}
+      %if pro
+      {\stepcounter{respro}}
+      {\ifthenelse{\equal{#1}{con}}
+         {\stepcounter{rescon}}
+        {% false case:say error
+        }
+      }
+}
+ 
+\newcommand{\storedquestion}{your research question}
+\newcommand{\question}[1]{%
+  \renewcommand{\storedquestion}{#1}#1}
+
+\newcommand{\storedhypothesis}{your hypothesis}
+\newcommand{\hypothesis}[1]{%
+  \renewcommand{\storedhypothesis}{#1}#1}
+
+\newcommand{\printhealthcheck}{
+\parindent0pt
+\large
+
+%\huge
+\begin{center}
+\huge
+    \textbf{\expandafter\MakeUppercase \storedhypothesis}:
+    \ifthenelse{\therespro>\therescon}
+    {Probably}
+    {\ifthenelse{\equal{\therespro}{\therescon}}
+        {Maybe}
+        {Probably not}
+    }
+\end{center}
+
+Question:
+\begin{center}
+\textbf{\expandafter\MakeUppercase \storedquestion}
+\end{center}
+
+Hypothesis:
+\begin{center}
+    \textbf{\expandafter\MakeUppercase \storedhypothesis}
+\end{center}
+~\\
+Experimental support:
+
+\begin{center}
+ Yes \progressbar[linecolor = blue , tickscolor = blue, ticksheight =0.1, emptycolor = orange , filledcolor = blue, width=5cm, heightr=1]
+    {0.\the\numexpr\thecitepro*100/(\thecitepro+\thecitecon)\relax} No
+\end{center}
+
+ \thecitepro~experimental results support this hypothesis,
+ \thecitecon~go against it.\\
+
+% What it would take for your hypothesis to be wrong: 
+
+% What your experiments showed: beef preserved in sugar was mold-free for on average 2 days more than beef preserved in salt
+
+Citation ratio:
+\begin{center}
+
+ Pros \progressbar[linecolor = blue , tickscolor = blue, ticksheight =0.1, emptycolor = yellow , filledcolor = blue, width=5cm, heightr=1]
+    {0.\the\numexpr\therespro*100/(\therespro+\therescon)\relax} Cons
+\end{center}
+This hypothesis is potentially supported by \thecitepro~previous papers, and potentially in disagreement with \thecitecon~previous papers.
+
+
+}

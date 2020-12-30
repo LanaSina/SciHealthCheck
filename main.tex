@@ -1,0 +1,49 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{scihealthcheck}
+
+\makeindex
+
+\title{SciHealthCheck}
+\author{Lana}
+\date{ }
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+Salt is used in all kinds of food around the world. So is sugar. \question{Which preserves food longer: salt or sugar?} We investigate the possibility that \hypothesis{by weight, salt preserves food longer}.
+This paper\hcite{pro}{baldeweg2006repetition} says that salt absorbs 0.5 grams of water per gram of salt, while sugar only absorbs 0.2 grams. But these papers say that sugar kills more types of fungi than salt does
+\hcite{con}{baldeweg2006repetition, garson1996cognition}.
+We tested how long a 15g cube of beef stayed mold-free when put in 5g of sugar or 5g of salt. We found that beef preserved in sugar was mold-free for on average 2 days more than beef preserved in salt.
+
+Experiment 1: at 25 degrees C, we put 10 cubes of beef in 10 sealed jars with 5g of sugar, and 10 cubes of beef in 10 sealed jars with 5g of salt.
+\result{con} We found that the sugar beef developed mold at 7 days, while the salted beef developed mold at 5 days.
+
+Experiment 2: at 35 degrees C, we put 10 cubes of beef in 10 sealed jars with 5g of sugar, and 10 cubes of beef in 10 sealed jars with 5g of salt.
+\result{con} We found that the sugar beef developed mold at 7 days, while the salted beef developed mold at 5 days.
+
+Experiment 3: at 15 degrees C, we put 10 cubes of beef in 10 sealed jars with 5g of sugar, and 10 cubes of beef in 10 sealed jars with 5g of salt.
+\result{pro} We found that the sugar beef developed mold at 7 days, while the salted beef developed mold at 8 days.
+
+
+% \begin{example}
+% This text is inside a special environment, some boldface text is printed
+% at the beginning and a new indentation is set.
+% \end{example}
+
+% Also, there's a special command for \important{important!words} that will be printed in a special \important{colour} depending on the parameter used in the \important{package} importation statement. Because it's \important{important}.
+
+% \printindex
+
+\footnotesize{
+\bibliographystyle{apalike}
+\bibliography{bibliography}
+}
+
+\clearpage
+\printhealthcheck
+
+\end{document}
