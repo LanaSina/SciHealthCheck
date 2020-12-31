@@ -9,7 +9,11 @@
 \RequirePackage{imakeidx}
 \RequirePackage{progressbar}
 \RequirePackage{substr}
-\RequirePackage{tikz}                                               
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{tikz} 
+\RequirePackage{titling}
+\RequirePackage{xcolor}
+
 
 % pro and con citation counter
 \newcounter{citepro}
@@ -23,22 +27,22 @@
 \newcommand{\hcite}[2]{\cite{#2}%
     \SubStringsToCounter{tempcount}{,}{#2}%
     \ifthenelse{\equal{#1}{pro}}%
-      %if pro
-      {\addtocounter{citepro}{\thetempcount+1}}%
+      {\addtocounter{citepro}{\numexpr\thetempcount+1\relax}}%
       {\ifthenelse{\equal{#1}{con}}%
-         {\addtocounter{citecon}{\thetempcount+1}}% 
+         {\addtocounter{citecon}{\numexpr\thetempcount+1\relax}}% 
         {% false case:say error
+        ERROR #1
         }%
       }%
  }
  
 \newcommand{\result}[1]{
      \ifthenelse{\equal{#1}{pro}}
-      %if pro
       {\stepcounter{respro}}
       {\ifthenelse{\equal{#1}{con}}
          {\stepcounter{rescon}}
         {% false case:say error
+        "ERROR": #1
         }
       }
 }
@@ -53,7 +57,9 @@
 
 \newcommand{\printhealthcheck}{
 \parindent0pt
-\large
+
+\definecolor{myblue}{RGB}{0,163,243}
+\begin{tcolorbox}[title=Paper Healthcheck Card: \textbf{ \thetitle}, arc=3mm, colframe=black, colback=white]
 
 %\huge
 \begin{center}
@@ -66,6 +72,29 @@
         {Probably not}
     }
 \end{center}
+
+\tcblower
+
+\begin{tcbraster}[raster columns=4,raster equal height]
+\begin{tcolorbox}[nobeforeafter, left=0mm, right=0mm, colframe=white, colback=lime]
+\centering
+Open Access
+\end{tcolorbox}
+\begin{tcolorbox}[nobeforeafter,left=0mm, right=0mm,colframe=white, colback=cyan]
+\centering
+Open Data
+\end{tcolorbox}
+\begin{tcolorbox}[nobeforeafter, left=0mm, right=0mm,colframe=white, colback=orange]
+\centering
+Open Materials
+\end{tcolorbox}
+\begin{tcolorbox}[nobeforeafter, left=0mm, right=0mm,colframe=white, colback=red]
+\centering
+Preregistered
+\end{tcolorbox}
+\end{tcbraster}
+
+\large
 
 Question:
 \begin{center}
@@ -81,11 +110,11 @@ Experimental support:
 
 \begin{center}
  Yes \progressbar[linecolor = blue , tickscolor = blue, ticksheight =0.1, emptycolor = orange , filledcolor = blue, width=5cm, heightr=1]
-    {0.\the\numexpr\thecitepro*100/(\thecitepro+\thecitecon)\relax} No
+    {0.\the\numexpr\therespro*100/(\therespro+\therescon)\relax} No
 \end{center}
 
- \thecitepro~experimental results support this hypothesis,
- \thecitecon~go against it.\\
+ \therespro~experimental results support this hypothesis,
+ \therescon~go against it.\\
 
 % What it would take for your hypothesis to be wrong: 
 
@@ -95,9 +124,10 @@ Citation ratio:
 \begin{center}
 
  Pros \progressbar[linecolor = blue , tickscolor = blue, ticksheight =0.1, emptycolor = yellow , filledcolor = blue, width=5cm, heightr=1]
-    {0.\the\numexpr\therespro*100/(\therespro+\therescon)\relax} Cons
+    {0.\the\numexpr\thecitepro*100/(\thecitepro+\thecitecon)\relax} Cons
 \end{center}
 This hypothesis is potentially supported by \thecitepro~previous papers, and potentially in disagreement with \thecitecon~previous papers.
 
+\end{tcolorbox}
 
 }
